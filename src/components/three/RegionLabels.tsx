@@ -17,7 +17,6 @@ export default function RegionLabels() {
             anchorY="middle"
             fillOpacity={0.2}
             outlineWidth={0}
-            font="https://fonts.gstatic.com/s/cinzeldecorative/v16/daaCSScvJGqLYhG8nNt8KPPswUAPnh7URs1LaBkqEwU.woff2"
           >
             {region.displayName}
           </Text>

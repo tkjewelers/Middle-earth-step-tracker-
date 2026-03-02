@@ -38,7 +38,6 @@ export default function LocationMarkers({ passedLocations }: LocationMarkersProp
                 anchorY="bottom"
                 outlineWidth={0.05}
                 outlineColor="#0a0806"
-                font="https://fonts.gstatic.com/s/cinzel/v23/8vIU7ww63mVu7gtR-kwKxNvkNOjw-tbnTYrvDE5ZdqU.woff2"
               >
                 {name}
               </Text>

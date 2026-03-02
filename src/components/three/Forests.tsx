@@ -1,4 +1,4 @@
-import { useMemo, useRef } from 'react';
+import { useMemo, useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { FOREST_REGIONS } from '@/data/terrain-config';
 import { hash } from '@/utils/noise';
@@ -45,7 +45,8 @@ export default function Forests() {
 
   const trees = useMemo(() => generateTrees(), []);
 
-  useMemo(() => {
+  // useEffect runs after mount when refs are available
+  useEffect(() => {
     if (!trunkRef.current || !canopyRef.current) return;
 
     const dummy = new THREE.Object3D();
