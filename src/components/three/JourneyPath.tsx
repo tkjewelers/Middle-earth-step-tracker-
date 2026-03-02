@@ -71,7 +71,7 @@ export default function JourneyPath({ milesTraveled }: JourneyPathProps) {
             roughness={0.3}
             metalness={0.2}
             emissive="#5aaa8a"
-            emissiveIntensity={0.3}
+            emissiveIntensity={0.5}
           />
         </mesh>
       )}

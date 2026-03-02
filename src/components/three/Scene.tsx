@@ -1,7 +1,6 @@
 import { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { Stars } from '@react-three/drei';
-import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing';
 import * as THREE from 'three';
 import Terrain from './Terrain';
 import Water from './Water';
@@ -41,9 +40,7 @@ export default function Scene({ milesTraveled, hobbitPosition, passedLocations }
       <fog attach="fog" args={['#1a1810', 60, 220]} />
 
       {/* Lighting: warm sun + cool fill + hemisphere ambient */}
-      <hemisphereLight
-        args={['#6080a0', '#3a2a1a', 0.4]}
-      />
+      <hemisphereLight args={['#6080a0', '#3a2a1a', 0.4]} />
       <ambientLight intensity={0.3} color="#4a4030" />
       <directionalLight
         position={[-40, 60, -30]}
@@ -84,17 +81,6 @@ export default function Scene({ milesTraveled, hobbitPosition, passedLocations }
       </Suspense>
 
       <CameraController target={[hobbitPosition.x, 0, hobbitPosition.z]} />
-
-      {/* Post-processing */}
-      <EffectComposer>
-        <Bloom
-          intensity={0.4}
-          luminanceThreshold={0.6}
-          luminanceSmoothing={0.9}
-          mipmapBlur
-        />
-        <Vignette offset={0.3} darkness={0.6} />
-      </EffectComposer>
     </Canvas>
   );
 }
