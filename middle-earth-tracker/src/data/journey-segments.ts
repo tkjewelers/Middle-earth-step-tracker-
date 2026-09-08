@@ -1,0 +1,458 @@
+import { JourneySegment } from "@/types";
+
+const SOURCE_SEGMENTS: JourneySegment[] = [
+  {
+    id: 1,
+    from: "Bag End",
+    to: "Bucklebury Ferry",
+    miles: 18,
+    cumulative: 18,
+    book: "Fellowship",
+    chapter: "Three is Company / A Short Cut to Mushrooms",
+    context:
+      "Frodo, Sam, and Pippin leave Bag End at dusk on September 23, 3018. They travel through the Shire, encountering a Black Rider on the road who sniffs for the Ring. They cut through Farmer Maggot's fields and reach the Bucklebury Ferry just ahead of a pursuing Rider.",
+    terrain: "Rolling hills, farmland, woods",
+    keyEvents: [
+      "First Black Rider sighting",
+      "Meeting Gildor and the Elves",
+      "Farmer Maggot's fields",
+      "Bucklebury Ferry escape",
+    ],
+  },
+  {
+    id: 2,
+    from: "Bucklebury Ferry",
+    to: "Tom Bombadil's House",
+    miles: 21,
+    cumulative: 39,
+    book: "Fellowship",
+    chapter:
+      "A Conspiracy Unmasked / The Old Forest / In the House of Tom Bombadil",
+    context:
+      "The hobbits cross the Brandywine and spend a night at Crickhollow. Merry reveals the conspiracy — they know about the Ring. They enter the Old Forest, where Old Man Willow traps Merry and Pippin. Tom Bombadil rescues them and brings them to his house.",
+    terrain: "Old Forest, dense and ancient, hostile trees",
+    keyEvents: [
+      "Conspiracy unmasked",
+      "Old Man Willow attacks",
+      "Tom Bombadil's rescue",
+      "Goldberry",
+    ],
+  },
+  {
+    id: 3,
+    from: "Tom Bombadil's House",
+    to: "Bree",
+    miles: 21,
+    cumulative: 60,
+    book: "Fellowship",
+    chapter: "Fog on the Barrow-downs / At the Sign of the Prancing Pony",
+    context:
+      "Leaving Bombadil's, they cross the Barrow-downs and are captured by a Barrow-wight. Frodo calls Tom Bombadil, who breaks the spell. They receive ancient blades from the barrow-hoard. They reach Bree and the Prancing Pony, where Frodo accidentally puts on the Ring and meets Strider.",
+    terrain: "Barrow-downs (fog, ancient mounds), then East Road to Bree",
+    keyEvents: [
+      "Barrow-wight capture",
+      "Ancient blades from the barrow",
+      "Arriving at the Prancing Pony",
+      "Meeting Strider",
+    ],
+  },
+  {
+    id: 4,
+    from: "Bree",
+    to: "Weathertop",
+    miles: 40,
+    cumulative: 100,
+    book: "Fellowship",
+    chapter: "A Knife in the Dark",
+    context:
+      "Strider leads them off the main road through the Midgewater Marshes (infested with midges). They see distant flashes on Weathertop. At the ancient watchtower of Amon Sûl, the Witch-king and four other Nazgûl attack. Frodo puts on the Ring and is stabbed with a Morgul-blade.",
+    terrain: "Wild lands, Midgewater Marshes, Weather Hills",
+    keyEvents: [
+      "Leaving the road",
+      "Midgewater Marshes",
+      "Distant flashes on Weathertop",
+      "Nazgûl attack",
+      "Frodo stabbed by Morgul-blade",
+    ],
+  },
+  {
+    id: 5,
+    from: "Weathertop",
+    to: "Rivendell",
+    miles: 60,
+    cumulative: 160,
+    book: "Fellowship",
+    chapter: "Flight to the Ford",
+    context:
+      "Desperate race to Rivendell. Frodo is poisoned and fading — the Morgul shard is working toward his heart. They pass through the Trollshaws, finding Bilbo's stone trolls. Glorfindel arrives on his white horse Asfaloth and puts Frodo on it. At the Ford of Bruinen, Frodo turns to face the Nine and Elrond's flood rises to sweep them away.",
+    terrain: "Trollshaws (ancient forest), Last Bridge, Ford of Bruinen",
+    keyEvents: [
+      "Frodo fading",
+      "Trollshaws and stone trolls",
+      "Glorfindel arrives",
+      "Chase to the Ford",
+      "Elrond's flood",
+    ],
+  },
+  {
+    id: 6,
+    from: "Rivendell",
+    to: "West-gate of Moria",
+    miles: 40,
+    cumulative: 200,
+    book: "Fellowship",
+    chapter: "The Ring Goes South / A Journey in the Dark",
+    context:
+      "The Fellowship of nine departs Rivendell. They try to cross the Misty Mountains via the Redhorn Pass (Caradhras), but the mountain defeats them with storms. Wolves attack at night. They retreat and head for the West-gate of Moria. At the Doors of Durin, Gandalf solves the riddle ('Speak, friend, and enter'). The Watcher in the Water attacks as they enter.",
+    terrain:
+      "Eregion (Hollin), attempt at Redhorn Pass, retreat to Moria gates",
+    keyEvents: [
+      "Fellowship departs",
+      "Failed crossing of Caradhras",
+      "Wolves attack",
+      "Doors of Durin riddle",
+      "Watcher in the Water",
+    ],
+  },
+  {
+    id: 7,
+    from: "West-gate of Moria",
+    to: "East-gate of Moria",
+    miles: 10,
+    cumulative: 210,
+    book: "Fellowship",
+    chapter: "A Journey in the Dark / The Bridge of Khazad-dûm",
+    context:
+      "Three days in darkness through the Mines of Moria. They find Balin's tomb and the record of the dwarves' last stand. Drums in the deep. A cave-troll and orcs attack. Then the Balrog comes — Gandalf faces it on the Bridge of Khazad-dûm: 'You shall not pass!' He falls with the Balrog into the abyss.",
+    terrain: "Underground mines, vast halls, Bridge of Khazad-dûm",
+    keyEvents: [
+      "Balin's tomb",
+      "They are coming",
+      "Cave-troll fight",
+      "Balrog appears",
+      "Gandalf's fall",
+    ],
+  },
+  {
+    id: 8,
+    from: "East-gate of Moria",
+    to: "Lothlórien",
+    miles: 50,
+    cumulative: 260,
+    book: "Fellowship",
+    chapter: "Lothlórien / The Mirror of Galadriel",
+    context:
+      "Grieving for Gandalf, they reach the golden wood of Lothlórien and are brought before Galadriel and Celeborn. They rest and heal. Galadriel shows Frodo and Sam her Mirror. Frodo offers her the Ring, and she passes the test. She gives the Fellowship gifts: the Phial of Galadriel to Frodo, Elven cloaks, lembas bread, and boats.",
+    terrain: "Dimrill Dale, Silverlode river, Lothlórien forest",
+    keyEvents: [
+      "Grief for Gandalf",
+      "Entering Lothlórien",
+      "Galadriel's Mirror",
+      "Galadriel's gifts",
+    ],
+  },
+  {
+    id: 9,
+    from: "Lothlórien",
+    to: "Amon Hen",
+    miles: 120,
+    cumulative: 380,
+    book: "Fellowship",
+    chapter: "The Great River / The Breaking of the Fellowship",
+    context:
+      "They travel down the Anduin in Elven boats. They pass the Argonath, the great stone kings. At Parth Galen, Boromir tries to take the Ring from Frodo. Frodo puts on the Ring and flees. He decides to go to Mordor alone. Sam insists on coming. The Fellowship is broken.",
+    terrain: "Great River Anduin, rapids, Argonath, Nen Hithoel lake",
+    keyEvents: [
+      "Galadriel's gifts (including the Phial)",
+      "Passing the Argonath",
+      "Boromir's betrayal",
+      "Breaking of the Fellowship",
+    ],
+  },
+  {
+    id: 10,
+    from: "Amon Hen",
+    to: "Eastern Emyn Muil",
+    miles: 45,
+    cumulative: 425,
+    book: "Two Towers",
+    chapter: "The Taming of Sméagol",
+    context:
+      "Frodo and Sam cross the lake and enter the maze of the Emyn Muil, a confusing labyrinth of rocky hills. Gollum follows them and attacks at night. They capture him, and Frodo makes Gollum swear by the Ring to serve as their guide to Mordor.",
+    terrain: "Rocky hills, ravines, cliffs",
+    keyEvents: [
+      "Crossing Nen Hithoel",
+      "Lost in the Emyn Muil",
+      "Capturing Gollum",
+      "Gollum's oath",
+    ],
+  },
+  {
+    id: 11,
+    from: "Eastern Emyn Muil",
+    to: "Dead Marshes",
+    miles: 15,
+    cumulative: 440,
+    book: "Two Towers",
+    chapter: "The Passage of the Marshes",
+    context:
+      "Gollum leads them down from the Emyn Muil toward the Dead Marshes. They travel by night, hiding from Nazgûl on fell beasts overhead. The desolation grows.",
+    terrain: "Rocky descent, desolate scrubland, marsh edges",
+    keyEvents: ["Gollum as guide", "Traveling by night", "Growing desolation"],
+  },
+  {
+    id: 12,
+    from: "Dead Marshes",
+    to: "Morannon",
+    miles: 50,
+    cumulative: 490,
+    book: "Two Towers",
+    chapter: "The Passage of the Marshes / The Black Gate is Closed",
+    context:
+      "They traverse the Dead Marshes, where corpse-candles flicker and the faces of the ancient dead lie beneath the water. Frodo is drawn toward the lights. A Nazgûl flies overhead. They reach the Morannon — the Black Gate of Mordor — but it is impenetrable. Gollum suggests another way: the pass of Cirith Ungol.",
+    terrain: "Dead Marshes, Dagorlad slag-mounds, before the Black Gate",
+    keyEvents: [
+      "Corpse-candles and dead faces",
+      "Frodo drawn to the lights",
+      "Nazgûl flyover",
+      "Black Gate impassable",
+      "Gollum suggests Cirith Ungol",
+    ],
+  },
+  {
+    id: 13,
+    from: "Morannon",
+    to: "Ithilien",
+    miles: 50,
+    cumulative: 540,
+    book: "Two Towers",
+    chapter: "Of Herbs and Stewed Rabbit / The Window on the West",
+    context:
+      "They turn south through Ithilien, the garden of Gondor — abandoned but still fair. Sam cooks rabbit stew (and Gollum is disgusted). They see an Oliphaunt. Faramir's rangers capture them and bring them to Henneth Annûn, the Window on the West. Faramir proves nobler than Boromir, refusing the Ring.",
+    terrain: "North Ithilien — woods, streams, herbs, ruins",
+    keyEvents: [
+      "Sam's rabbit stew",
+      "Oliphaunt sighting",
+      "Captured by Faramir's rangers",
+      "Faramir refuses the Ring",
+    ],
+  },
+  {
+    id: 14,
+    from: "Ithilien",
+    to: "Crossroads",
+    miles: 20,
+    cumulative: 560,
+    book: "Two Towers",
+    chapter: "Journey to the Cross-roads",
+    context:
+      "Faramir releases them with provisions. They travel south. At the Cross-roads, they find the ancient stone king's head crowned with flowers by the setting sun — a moment of beauty before the darkness ahead.",
+    terrain: "South Ithilien",
+    keyEvents: [
+      "Faramir's warning about Cirith Ungol",
+      "Cross-roads statue",
+      "Sunset crowning the fallen king",
+    ],
+  },
+  {
+    id: 15,
+    from: "Crossroads",
+    to: "Minas Morgul",
+    miles: 10,
+    cumulative: 570,
+    book: "Two Towers",
+    chapter: "The Stairs of Cirith Ungol",
+    context:
+      "The Morgul-host issues forth with the Witch-king leading. Frodo nearly puts on the Ring. They climb the Straight Stair and the Winding Stair in the dark.",
+    terrain: "Morgul Vale, stairs carved in rock",
+    keyEvents: [
+      "Morgul-host departs",
+      "Witch-king senses Frodo",
+      "Climbing the stairs",
+    ],
+  },
+  {
+    id: 16,
+    from: "Minas Morgul",
+    to: "Cirith Ungol",
+    miles: 5,
+    cumulative: 575,
+    book: "Two Towers",
+    chapter: "Shelob's Lair",
+    context:
+      "Gollum leads them into Shelob's tunnel. The Phial of Galadriel provides light. Shelob stings Frodo and he appears dead. Sam fights Shelob with Sting and the Phial, driving her back.",
+    terrain: "Spider's tunnel, narrow pass",
+    keyEvents: [
+      "Shelob's tunnel",
+      "Phial of Galadriel",
+      "Shelob stings Frodo",
+      "Sam fights Shelob",
+    ],
+  },
+  {
+    id: 17,
+    from: "Cirith Ungol",
+    to: "Tower of Cirith Ungol",
+    miles: 3,
+    cumulative: 578,
+    book: "Return of the King",
+    chapter: "The Tower of Cirith Ungol",
+    context:
+      "Sam discovers Frodo is alive (Shelob's sting only paralyzed him). He uses the Ring to enter the tower. Orcs have killed each other fighting over Frodo's mithril coat. Sam rescues Frodo and returns the Ring.",
+    terrain: "Orc fortress, dark tower",
+    keyEvents: [
+      "Frodo alive",
+      "Sam wears the Ring",
+      "Orc infighting over mithril",
+      "Sam rescues Frodo",
+    ],
+  },
+  {
+    id: 18,
+    from: "Tower of Cirith Ungol",
+    to: "Mount Doom",
+    miles: 65,
+    cumulative: 643,
+    book: "Return of the King",
+    chapter: "The Land of Shadow / Mount Doom",
+    context:
+      "Across the slag-plains of Gorgoroth. They disguise as orcs briefly. Water runs out. The Ring grows heavier with every step. Sam carries Frodo up the slopes of Mount Doom. At the Crack of Doom, Frodo claims the Ring — but Gollum bites it from his finger and falls into the fire.",
+    terrain: "Plateau of Gorgoroth, slag-plains, Mount Doom slopes",
+    keyEvents: [
+      "Disguised as orcs",
+      "Exhaustion and thirst",
+      "Sam carries Frodo",
+      "Frodo claims the Ring",
+      "Gollum's fall",
+      "Ring destroyed",
+    ],
+  },
+  {
+    id: 19,
+    from: "Mount Doom",
+    to: "Field of Cormallen",
+    miles: 0,
+    cumulative: 643,
+    book: "Return of the King",
+    chapter: "The Field of Cormallen",
+    context:
+      "Eagles rescue Frodo and Sam from the erupting mountain. They wake in Ithilien with Gandalf alive beside them. Reunion with the Fellowship. The host of the West honors the hobbits.",
+    terrain: "Carried by Eagles",
+    keyEvents: [
+      "Eagle rescue",
+      "Gandalf alive",
+      "Reunion with Fellowship",
+      "Praise of the Halflings",
+    ],
+  },
+  {
+    id: 20,
+    from: "Field of Cormallen",
+    to: "Minas Tirith",
+    miles: 50,
+    cumulative: 693,
+    book: "Return of the King",
+    chapter: "The Steward and the King",
+    context:
+      "Return to Minas Tirith in triumph. Aragorn is crowned King Elessar. He weds Arwen Evenstar.",
+    terrain: "Ithilien roads to the White City",
+    keyEvents: ["Triumphal return", "Aragorn crowned", "Aragorn weds Arwen"],
+  },
+  {
+    id: 21,
+    from: "Minas Tirith",
+    to: "Edoras",
+    miles: 400,
+    cumulative: 1093,
+    book: "Return of the King",
+    chapter: "Many Partings",
+    context:
+      "Escorting Théoden's body home for burial. Éowyn and Faramir are betrothed. Éomer becomes King of Rohan.",
+    terrain: "Great West Road through Gondor and Rohan",
+    keyEvents: [
+      "Théoden's funeral procession",
+      "Éowyn and Faramir betrothed",
+      "Éomer crowned King of Rohan",
+    ],
+  },
+  {
+    id: 22,
+    from: "Edoras",
+    to: "Isengard",
+    miles: 150,
+    cumulative: 1243,
+    book: "Return of the King",
+    chapter: "Many Partings",
+    context:
+      "To Isengard, now tended by Ents. Treebeard's farewell. They meet Saruman and Wormtongue on the road — diminished and pathetic.",
+    terrain: "Gap of Rohan, Nan Curunír",
+    keyEvents: [
+      "Ents at Isengard",
+      "Treebeard's farewell",
+      "Meeting Saruman on road",
+      "Saruman's decline",
+    ],
+  },
+  {
+    id: 23,
+    from: "Isengard",
+    to: "Rivendell",
+    miles: 500,
+    cumulative: 1743,
+    book: "Return of the King",
+    chapter: "Many Partings / Homeward Bound",
+    context:
+      "North with Gandalf, Galadriel, Celeborn. They part from the Elves. At Rivendell, Bilbo is very old now. Frodo collects Bilbo's writings — the Red Book of Westmarch.",
+    terrain: "Gap of Rohan, along mountains, through Eregion",
+    keyEvents: [
+      "Parting with Galadriel and Celeborn",
+      "Arriving at Rivendell",
+      "Bilbo's growing age",
+    ],
+  },
+  {
+    id: 24,
+    from: "Rivendell",
+    to: "Bag End",
+    miles: 300,
+    cumulative: 2043,
+    book: "Return of the King",
+    chapter: "Homeward Bound / Scouring of the Shire / Grey Havens",
+    context:
+      "Through Bree (troubled). Gandalf departs. The Shire under Sharkey's (Saruman's) control. The hobbits rally the Shire-folk. Battle of Bywater. Saruman killed by Wormtongue. Sam plants Galadriel's gift. Frodo sails from the Grey Havens.",
+    terrain: "East Road, Bree, the Shire",
+    keyEvents: [
+      "Bree troubles",
+      "Gandalf departs",
+      "Scouring of the Shire",
+      "Battle of Bywater",
+      "Grey Havens",
+    ],
+  },
+];
+
+/** Total canonical journey distance (accounting for overlaps and Eagles) */
+export const TOTAL_JOURNEY_MILES = 1779;
+
+/** Steps per mile conversion rate */
+export const STEPS_PER_MILE = 2100;
+
+// Keep existing outward milestones (including saved 170-mile progress) unchanged.
+// Fit the return legs to the original app's 1,779-mile challenge target. These
+// are challenge distances, not a claim about canonical geographic mileage.
+const outwardMiles = 643;
+const returnScale =
+  (TOTAL_JOURNEY_MILES - outwardMiles) / (2043 - outwardMiles);
+export const JOURNEY_SEGMENTS: JourneySegment[] = SOURCE_SEGMENTS.map(
+  (segment) => {
+    if (segment.id <= 19) return segment;
+    const cumulative = Math.round(
+      outwardMiles + (segment.cumulative - outwardMiles) * returnScale,
+    );
+    const start = Math.round(
+      outwardMiles +
+        (segment.cumulative - segment.miles - outwardMiles) * returnScale,
+    );
+    return { ...segment, cumulative, miles: cumulative - start };
+  },
+);
